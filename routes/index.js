@@ -67,4 +67,49 @@ module.exports = function (app) {
         res.send(user)
     })
 
+    app.get("/farve", function(req, res) {
+        let sql = "SELECT id, navn FROM farve"
+
+        db.query(sql, function(err, rows) {
+            if (err) throw new Error(err)
+
+            res.send(rows)
+        })
+    })
+
+    app.get("/styrke", function(req, res) {
+        let sql = "SELECT id, navn FROM styrke"
+
+        db.query(sql, function(err, rows) {
+            if (err) throw new Error(err)
+
+            res.send(rows)
+        })
+    })
+
+    app.get("/smag", function(req, res) {
+        let sql = "SELECT id, navn FROM smag"
+
+        db.query(sql, function(err, rows) {
+            if (err) throw new Error(err)
+
+            res.send(rows)
+        })
+    })
+
+    app.get("/surhed", function(req, res) {
+        let sql = "SELECT id, navn FROM surhed"
+
+        db.query(sql, function(err, rows) {
+            if (err) throw new Error(err)
+
+            res.send(rows)
+        })
+    })
+
+    app.post("/products", function(req, res) {
+        console.log(req.body);
+        res.end();
+    })
+
 }
