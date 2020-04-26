@@ -1,0 +1,74 @@
+REST API
+
+Hvad er et API?
+	Application Programming Interface
+
+Web API
+	Leverer data til brug i applikationer
+	Leverer typisk data i JSON format eller XML
+
+REST ??
+	REpresentational State Transfer
+	
+	REpresentational = det data vi får fra APIet er en
+											repræsentation af den rigtige data
+
+	State = Tilstand. Logget ind/ud
+					REST APIer må ikke have nogen state
+
+	Transfer = overførsel af data
+
+
+REST API Birgers Bolcher
+
+	/products
+			=> JSON objekt med alle produkter
+
+	/products/:id
+
+	/products/:id/orders
+
+	Dette kaldes endpoints
+
+	Hvad er et level 5 REST API?
+
+	/products
+
+	{
+	"url": "http://birgersbolchers.dk/api/v1/products",
+	"next": "http://birgersbolchers.dk/api/v1/products?start=101",
+	"prev": null,
+	"limit": 100,
+	"start": 1,
+	"items": 7001,
+	"data": [{
+					"id": 5,
+					"navn": "Blå Spejderhagl",
+					"pris": 42
+				},
+				{
+					"id": 6,
+					"navn": "Røde Spejderhagl",
+					"pris": 42
+				}]
+	}
+
+	REST API er en kontrakt
+		Kontrakten går ud på at intet ændrer sig
+		Tilføjelser er tilladt!
+		Vi må ikke fjerne funktionalitet
+
+		Men! Hvis vi har brug for at fjerne
+		funktionalitet skal vi gøre det i en ny version
+
+	
+	3 alm web API konventioner
+	- REST
+	- SOAP
+	- GraphQL
+
+	OPGAVEN!! >:D
+	I skal omforme BB APIet til et REST API
+		- version
+		- hvor hører bolchernes egenskaber til?
+

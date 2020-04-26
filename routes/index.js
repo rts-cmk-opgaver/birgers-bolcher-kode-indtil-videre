@@ -7,6 +7,9 @@ const db = mysql.createConnection({
     'database': 'bb'
 });
 
+const host = "http://localhost:3333";
+const version = "/api/v1";
+
 module.exports = function (app) {
     const sql = `SELECT 
             
@@ -29,15 +32,18 @@ module.exports = function (app) {
     const sqlSingle = sql + ' WHERE bolche.id = ?'
 
 
-    app.get('/products', function (req, res) {
+    app.get(version + '/products', function (req, res) {
         db.query(sql, function (err, rows) {
             if (err) {
-                res.send(err)
+                return res.send(err);
             } else {
-                res.send(rows)
+                let obj = {};
+                obj.data = rows;
+                obj.url = host + version + "/products";
+                res.send(obj);
             }
-        })
-    })
+        });
+    });
 
     app.get('/products/:id', function (req, res) {
 
@@ -108,8 +114,38 @@ module.exports = function (app) {
     })
 
     app.post("/products", function(req, res) {
-        console.log(req.body);
-        res.end();
-    })
+        let sql = `INSERT INTO bolche
+                    SET navn = ?,
+                    pris = ?,
+                    vaegt = ?,
+                    fk_smag = ?,
+                    fk_surhed = ?,
+                    fk_styrke = ?,
+                    fk_farve = ?`;
+
+        db.query(sql, [req.body.navn, req.body.pris,
+                       req.body.vaegt, req.body.fk_smag,
+                       req.body.fk_surhed, req.body.fk_styrke,
+                       req.body.fk_farve], function(err, result) {
+            if (err) throw new Error(err);
+
+            res.status(201).end();
+        });
+    });
+
+    app.post("/farve", function(req, res) {
+        let sql = "INSERT INTO farve SET navn = ?";
+
+        db.query(sql, [req.body.navn], function(err, result) {
+            if (err) {
+                console.log(err);
+                res.status(500).end();
+                return;
+            }
+
+            res.status(201).end();
+        });
+    });
 
 }
+
