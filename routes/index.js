@@ -10,6 +10,15 @@ const db = mysql.createConnection({
 const host = "http://localhost:3333";
 const version = "/api/v1";
 
+function routeAccessCheck(req, res, next) {
+    if (!req.headers.authorization || req.headers.authorization !== "1234") {
+        res.status(401).end();
+        return;
+    }
+
+    next();
+}
+
 module.exports = function (app) {
     const sql = `SELECT 
             
@@ -31,6 +40,7 @@ module.exports = function (app) {
 
     const sqlSingle = sql + ' WHERE bolche.id = ?'
 
+    app.use(routeAccessCheck);
 
     app.get(version + '/products', function (req, res) {
         db.query(sql, function (err, rows) {
@@ -55,22 +65,6 @@ module.exports = function (app) {
                 res.send(rows)
             }
         })
-    })
-
-    app.get('/', function (req, res) {
-        res.send("Tekst fra et route")
-    })
-
-    app.get('/test', function (req, res) {
-        res.send("Dette er en test")
-    })
-
-    app.get('/author', function (req, res) {
-        let user = {
-            "firstname": "Frank",
-            "lastname": "Goldmann"
-        }
-        res.send(user)
     })
 
     app.get("/farve", function(req, res) {
